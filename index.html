@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Palabras Agudas, Graves y Esdrújulas - Lengua y Literatura</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f8;
+      margin: 0; padding: 20px;
+      color: #2c3e50;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    button {
+      margin-top: 10px;
+      margin-right: 10px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #3498db;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    .teoria {
+      background-color: #eef2f5;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+    .oculto {
+      display: none;
+    }
+    .pregunta {
+      background-color: #ecf0f1;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+    }
+    .feedback {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .correcto {
+      color: green;
+    }
+    .incorrecto {
+      color: red;
+    }
+    .reiniciar {
+      background-color: #27ae60;
+    }
+    .reiniciar:hover {
+      background-color: #1e8449;
+    }
+    input[type="text"] {
+      padding: 8px;
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .test-conocimiento ol {
+      padding-left: 20px;
+    }
+    .test-conocimiento li {
+      margin-bottom: 15px;
+    }
+    .resultado-test {
+      font-weight: bold;
+      margin-top: 15px;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Lengua y Literatura: Palabras Agudas, Graves y Esdrújulas</h1>
+
+    <!-- Botón para mostrar/ocultar teoría -->
+    <button onclick="toggleTeoria()" class="btn-teoria">📘 Mostrar / Ocultar Teoría</button>
+    <section id="teoria" class="teoria oculto">
+      <h2>📘 Teoría</h2>
+      <ul>
+        <li><strong>Agudas:</strong> Última sílaba tónica. Llevan tilde si terminan en <strong>n, s</strong> o <strong>vocal</strong>. Ejemplo: sofá, camión.</li>
+        <li><strong>Graves (llanas):</strong> Penúltima sílaba tónica. Llevan tilde si <strong>no</strong> terminan en <strong>n, s</strong> o vocal. Ejemplo: lápiz, árbol.</li>
+        <li><strong>Esdrújulas:</strong> Antepenúltima sílaba tónica. <strong>Siempre</strong> llevan tilde. Ejemplo: música, lógico.</li>
+      </ul>
+    </section>
+
+    <!-- Clasificador de palabras -->
+    <section class="clasificador" style="margin-top: 30px;">
+      <h2>🔍 Clasificador de Palabras</h2>
+      <input type="text" id="palabraInput" placeholder="Escribe una palabra..." />
+      <button onclick="clasificarPalabra()">Clasificar</button>
+      <div id="resultadoClasificador" class="feedback"></div>
+    </section>
+
+    <!-- Preguntas V/F -->
+    <section class="preguntas" style="margin-top: 30px;">
+      <h2>✅ Preguntas de Verdadero o Falso</h2>
+
+      <div class="pregunta" data-correcta="true">
+        <p>1. La palabra “camión” es aguda y lleva tilde.</p>
+        <button onclick="responder(this, true)">Verdadero</button>
+        <button onclick="responder(this, false)">Falso</button>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="pregunta" data-correcta="false">
+        <p>2. Las palabras graves siempre llevan tilde.</p>
+        <button onclick="responder(this, true)">Verdadero</button>
+        <button onclick="responder(this, false)">Falso</button>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="pregunta" data-correcta="true">
+        <p>3. Las palabras esdrújulas siempre llevan tilde.</p>
+        <button onclick="responder(this, true)">Verdadero</button>
+        <button onclick="responder(this, false)">Falso</button>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="pregunta" data-correcta="false">
+        <p>4. “Arbol” lleva tilde porque es aguda y termina en consonante.</p>
+        <button onclick="responder(this, true)">Verdadero</button>
+        <button onclick="responder(this, false)">Falso</button>
+        <div class="feedback"></div>
+      </div>
+    </section>
+
+    <button class="reiniciar" onclick="reiniciarActividad()" style="margin-top: 20px;">🔄 Reiniciar todo</button>
+
+    <!-- Test de Conocimiento -->
+    <section class="test-conocimiento" style="margin-top: 40px;">
+      <h2>📝 Test de Conocimiento: Acentuación y Clasificación de Palabras</h2>
+      <form id="testForm">
+        <ol>
+          <li>
+            ¿Qué tipo de palabra lleva tilde <strong>solo si</strong> termina en n, s o vocal?<br>
+            <label><input type="radio" name="p1" value="aguda" /> Aguda</label><br />
+            <label><input type="radio" name="p1" value="grave" /> Grave</label><br />
+            <label><input type="radio" name="p1" value="esdrujula" /> Esdrújula</label>
+          </li>
+          <li>
+            ¿Qué tipo de palabra lleva tilde <strong>si NO</strong> termina en n, s o vocal?<br>
+            <label><input type="radio" name="p2" value="aguda" /> Aguda</label><br />
+            <label><input type="radio" name="p2" value="grave" /> Grave</label><br />
+            <label><input type="radio" name="p2" value="esdrujula" /> Esdrújula</label>
+          </li>
+          <li>
+            ¿Qué tipo de palabra <strong>siempre</strong> lleva tilde?<br />
+            <label><input type="radio" name="p3" value="aguda" /> Aguda</label><br />
+            <label><input type="radio" name="p3" value="grave" /> Grave</label><br />
+            <label><input type="radio" name="p3" value="esdrujula" /> Esdrújula</label>
+          </li>
+          <li>
+            ¿Cuál es la sílaba tónica en una palabra esdrújula?<br />
+            <label><input type="radio" name="p4" value="ultima" /> Última</label><br />
+            <label><input type="radio" name="p4" value="penultima" /> Penúltima</label><br />
+            <label><input type="radio" name="p4" value="antepenultima" /> Antepenúltima</label>
+          </li>
+          <li>
+            ¿Cuál de estas palabras es aguda?<br />
+            <label><input type="radio" name="p5" value="lapiz" /> lápiz</label><br />
+            <label><input type="radio" name="p5" value="cafe" /> café</label><br />
+            <label><input type="radio" name="p5" value="musica" /> música</label>
+          </li>
+          <li>
+            ¿Cuál de estas palabras es grave?<br />
+            <label><input type="radio" name="p6" value="camion" /> camión</label><br />
+            <label><input type="radio" name="p6" value="arbol" /> árbol</label><br />
+            <label><input type="radio" name="p6" value="telefono" /> teléfono</label>
+          </li>
+          <li>
+            ¿Cuál de estas palabras es esdrújula?<br />
+            <label><input type="radio" name="p7" value="sofa" /> sofá</label><br />
+            <label><input type="radio" name="p7" value="papa" /> papá</label><br />
+            <label><input type="radio" name="p7" value="logico" /> lógico</label>
+          </li>
+          <li>
+            La palabra “camión” termina en:<br />
+            <label><input type="radio" name="p8" value="n" /> Consonante n</label><br />
+            <label><input type="radio" name="p8" value="vocal" /> Vocal</label><br />
+            <label><input type="radio" name="p8" value="otra" /> Otra consonante</label>
+          </li>
+          <li>
+            “Computadora” es una palabra:<br />
+            <label><input type="radio" name="p9" value="aguda" /> Aguda</label><br />
+            <label><input type="radio" name="p9" value="grave" /> Grave</label><br />
+            <label><input type="radio" name="p9" value="esdrujula" /> Esdrújula</label>
+          </li>
+          <li>
+            ¿Qué palabra se acentúa por ser esdrújula?<br />
+            <label><input type="radio" name="p10" value="matematicas" /> matemáticas</label><br />
+            <label><input type="radio" name="p10" value="reloj" /> reloj</label><br />
+            <label><input type="radio" name="p10" value="papel" /> papel</label>
+          </li>
+          <li>
+            ¿Qué palabra <strong>no lleva tilde</strong> por ser grave terminada en vocal?<br />
+            <label><input type="radio" name="p11" value="casa" /> casa</label><br />
+            <label><input type="radio" name="p11" value="lapiz" /> lápiz</label><br />
+            <label><input type="radio" name="p11" value="camion" /> camión</label>
+          </li>
+          <li>
+            ¿En qué palabra la sílaba tónica está al final?<br />
+            <label><input type="radio" name="p12" value="sofa" /> sofá</label><br />
+            <label><input type="radio" name="p12" value="pajaro" /> pájaro</label><br />
+            <label><input type="radio" name="p12" value="lapiz" /> lápiz</label>
+          </li>
+          <li>
+            “Rápido” es una palabra:<br />
+            <label><input type="radio" name="p13" value="aguda" /> Aguda</label><br />
+            <label><input type="radio" name="p13" value="grave" /> Grave</label><br />
+            <label><input type="radio" name="p13" value="esdrujula" /> Esdrújula</label>
+          </li>
+          <li>
+            ¿Cuál de estas palabras es aguda y lleva tilde?<br />
+            <label><input type="radio" name="p14" value="camion" /> camión</label><br />
+            <label><input type="radio" name="p14" value="cielo" /> cielo</label><br />
+            <label><input type="radio" name="p14" value="lapiz" /> lápiz</label>
+          </li>
+          <li>
+            ¿Cuál de estas palabras es grave y <strong>no lleva tilde</strong>?<br />
+            <label><input type="radio" name="p15" value="mesa" /> mesa</label><br />
+            <label><input type="radio" name="p15" value="musica" /> música</label><br />
+            <label><input type="radio" name="p15" value="facil" /> fácil</label>
+          </li>
+          <li>
+            “Estación” es una palabra:<br />
+            <label><input type="radio" name="p16" value="aguda" /> Aguda</label><br />
+            <label><input type="radio" name="p16" value="grave" /> Grave</label><br />
+            <label><input type="radio" name="p16" value="esdrujula" /> Esdrújula</label>
+          </li>
+          <li>
+            ¿Cuál es la sílaba tónica en “teléfono”?<br />
+            <label><input type="radio" name="p17" value="te" /> te</label><br />
+            <label><input type="radio" name="p17" value="le" /> lé</label><br />
+            <label><input type="radio" name="p17" value="fo" /> fó</label>
+          </li>
+          <li>
+            ¿Cuál es una característica de las palabras esdrújulas?<br />
+            <label><input type="radio" name="p18" value="siempreTilde" /> Siempre llevan tilde</label><br />
+            <label><input type="radio" name="p18" value="aVecesTilde" /> Llevan tilde solo si terminan en vocal</label><br />
+            <label><input type="radio" name="p18" value="noTilde" /> No llevan tilde</label>
+          </li>
+          <li>
+            ¿Cuál de estas palabras es grave?<br />
+            <label><input type="radio" name="p19" value="arbol" /> árbol</label><br />
+            <label><input type="radio" name="p19" value="cafe" /> café</label><br />
+            <label><input type="radio" name="p19" value="telefono" /> teléfono</label>
+          </li>
+          <li>
+            ¿Qué tipo de palabra es “carácter”?<br />
+            <label><input type="radio" name="p20" value="aguda" /> Aguda</label><br />
+            <label><input type="radio" name="p20" value="grave" /> Grave</label><br />
+            <label><input type="radio" name="p20" value="esdrujula" /> Esdrújula</label>
+          </li>
+        </ol>
+        <button type="button" onclick="corregirTest()">Ver Resultados</button>
+        <div id="resultadoTest" class="resultado-test"></div>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    // Mostrar / ocultar teoría
+    function toggleTeoria() {
+      const teoria = document.getElementById('teoria');
+      teoria.classList.toggle('oculto');
+    }
+
+    // Clasificador de palabra (simple)
+    function clasificarPalabra() {
+      const palabra = document.getElementById('palabraInput').value.trim().toLowerCase();
+      const resultado = document.getElementById('resultadoClasificador');
+      if (!palabra) {
+        resultado.textContent = 'Por favor, escribe una palabra.';
+        resultado.className = 'feedback incorrecto';
+        return;
+      }
+      // Sílaba tónica y tipo aproximado
+      // Para simplificar, chequeamos terminación y tilde para clasificar
+      
+      // Detectar si lleva tilde (acentos comunes)
+      const tilde = /[áéíóúÁÉÍÓÚ]/.test(palabra);
+
+      // Última letra
+      const lastChar = palabra.slice(-1);
+
+      // Sílaba tónica aproximada usando tildes (antepenúltima, penúltima, última)
+      // Contar sílabas: aquí simplificado como contar vocales consecutivas, no 100% exacto pero sirve para el ejemplo
+      // Mejor enfoque: detectar posición tilde y longitud palabra.
+
+      // Posición tilde
+      const posTilde = palabra.search(/[áéíóú]/);
+
+      // Simplificación:
+      // Si no tiene tilde, palabra grave terminada en n,s,vocal (sin tilde) o aguda sin tilde (no siempre exacto).
+      // Para este demo, haremos:
+      let tipo = 'No se pudo clasificar con precisión';
+
+      if (posTilde !== -1) {
+        const tildePosFromEnd = palabra.length - posTilde;
+
+        if (tildePosFromEnd === 1) tipo = 'Aguda';
+        else if (tildePosFromEnd === 2) tipo = 'Grave o Llanas';
+        else if (tildePosFromEnd >= 3) tipo = 'Esdrújula';
+      } else {
+        // Sin tilde, aproximamos con regla general:
+        if ('nsvocal'.includes(lastChar)) tipo = 'Grave (sin tilde)';
+        else tipo = 'Aguda (sin tilde)';
+      }
+
+      resultado.textContent = `La palabra "${palabra}" es probablemente: ${tipo}.`;
+      resultado.className = 'feedback correcto';
+    }
+
+    // Responder preguntas V/F
+    function responder(button, respuestaUsuario) {
+      const preguntaDiv = button.closest('.pregunta');
+      const correcta = preguntaDiv.dataset.correcta === 'true';
+      const feedback = preguntaDiv.querySelector('.feedback');
+
+      if (respuestaUsuario === correcta) {
+        feedback.textContent = '✅ Correcto';
+        feedback.className = 'feedback correcto';
+      } else {
+        feedback.textContent = '❌ Incorrecto';
+        feedback.className = 'feedback incorrecto';
+      }
+
+      // Desactivar botones para esa pregunta
+      const botones = preguntaDiv.querySelectorAll('button');
+      botones.forEach(btn => btn.disabled = true);
+    }
+
+    // Reiniciar actividad (clasificador y preguntas V/F)
+    function reiniciarActividad() {
+      // Limpiar clasificador
+      document.getElementById('palabraInput').value = '';
+      const resultadoClasificador = document.getElementById('resultadoClasificador');
+      resultadoClasificador.textContent = '';
+      resultadoClasificador.className = 'feedback';
+
+      // Preguntas V/F
+      const preguntas = document.querySelectorAll('.pregunta');
+      preguntas.forEach(pregunta => {
+        pregunta.querySelector('.feedback').textContent = '';
+        pregunta.querySelector('.feedback').className = 'feedback';
+        const botones = pregunta.querySelectorAll('button');
+        botones.forEach(btn => btn.disabled = false);
+      });
+
+      // Reiniciar test conocimiento
+      document.getElementById('testForm').reset();
+      document.getElementById('resultadoTest').textContent = '';
+    }
+
+    // Corregir test de conocimiento
+    function corregirTest() {
+      const respuestasCorrectas = {
+        p1: 'aguda',
+        p2: 'grave',
+        p3: 'esdrujula',
+        p4: 'antepenultima',
+        p5: 'cafe',
+        p6: 'arbol',
+        p7: 'logico',
+        p8: 'n',
+        p9: 'grave',
+        p10: 'matematicas',
+        p11: 'casa',
+        p12: 'sofa',
+        p13: 'esdrujula',
+        p14: 'camion',
+        p15: 'mesa',
+        p16: 'aguda',
+        p17: 'fo',
+        p18: 'siempreTilde',
+        p19: 'arbol',
+        p20: 'grave'
+      };
+
+      const form = document.getElementById('testForm');
+      let correctas = 0;
+      let total = Object.keys(respuestasCorrectas).length;
+
+      for (const [pregunta, respuestaCorrecta] of Object.entries(respuestasCorrectas)) {
+        const opciones = form.elements[pregunta];
+        let encontrada = false;
+        for (const opcion of opciones) {
+          if (opcion.checked) {
+            encontrada = true;
+            if (opcion.value === respuestaCorrecta) correctas++;
+            break;
+          }
+        }
+        if (!encontrada) {
+          // No respondió la pregunta
+          alert('Por favor, responde todas las preguntas antes de enviar.');
+          return;
+        }
+      }
+
+      const resultadoDiv = document.getElementById('resultadoTest');
+      resultadoDiv.textContent = `Has respondido correctamente ${correctas} de ${total} preguntas. (${((correctas/total)*100).toFixed(2)}%)`;
+    }
+  </script>
+</body>
+</html>
